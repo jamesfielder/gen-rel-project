@@ -1,0 +1,144 @@
+%%% ---- LaTeX template for a simple A2 poster
+%%%     landscape orientation, with a full-width header
+%%%         and body material in columns
+%----------------------------------------------
+\documentclass[10pt,a4paper,landscape]{article}
+%%%  magnify to A2 when printing the final version
+%%%  portrait orientation is default
+%----------------------------------------------
+\usepackage[noheadfoot,width=277mm,height=200mm]{geometry}
+%%%  use all the paper -- leave no head- or foot-space
+\pagestyle{empty}  %%% suppress page numbering
+%----------------------------------------------
+%\usepackage{graphicx,multicol,color} %%% default CM font
+\usepackage{graphicx,multicol,color,mathpazo} %% mathpazo font
+% \usepackage{graphicx,multicol,color,mathptmx}  %% times roman font
+%----------------------------------------------
+%%  this is for using an image as background . . .
+\usepackage{everyshi,eso-pic,calc,ifthen,wallpaper}
+%----------------------------------------------
+%%%  homebrew colours for text, backgrounds, etc
+%%%                    .... by mixing red, green and blue
+\definecolor{cola}{rgb}{.9,.9,1}
+\definecolor{colb}{rgb}{.9,1,.9}
+\definecolor{colc}{rgb}{1,.9,.9}
+%------------------------------------------------------------
+%% boxes to put stuff in ......
+%%
+%%   (1) transparent boxes --- the background shows through
+%%			   #1 = width as fraction of what's available
+%%                         #2 = contents (text, formula, picture)
+%%                               ... tho pictures are always opaque
+%% ---- box for headers --- width = fraction of textwidth 
+\newcommand\BoX[2]{\begin{minipage}{#1\textwidth}#2\end{minipage}}
+%% ---- box centred in a column --- width = fraction of columnwidth
+\newcommand\BOX[2]{\begin{center}
+   \begin{minipage}{#1\columnwidth}#2\end{minipage}\end{center}\vfill}
+%%
+%%   (2) opaque boxes with coloured background and outline frame
+%%                         #1 = width as fraction of what's available
+%%                         #2 = contents (text, formula, picture)
+%%                         #3 = background colour
+%%                         #4 = frame colour
+\setlength\fboxrule{2pt} %% = width of frame lines round boxes
+\setlength\fboxsep{5pt}  %% = spacing round box contents
+%% ---- box for headers --- width = fraction of textwidth 
+\newcommand\cBoX[4]{\fcolorbox{#4}{#3}{%
+	\begin{minipage}{#1\textwidth}#2\end{minipage}}}
+%% ---- box centred in a column --- width = fraction of columnwidth
+\newcommand\cBOX[4]{\begin{center}\fcolorbox{#4}{#3}{%
+ \begin{minipage}{#1\columnwidth}#2\end{minipage}}\end{center}\vfill}
+%--------------------------------------------------------------------
+%% for e.g. picture and text side-by-side in a column
+%%   n.b. this command must be inside a \BOX or a \cBOX
+\newcommand\sidebyside[2]{\BoX{.46}{#1}\hfill\BoX{.46}{#2}}
+%--------------------------------------------------------------------
+\setlength\columnsep{8mm}  %%%% column separation
+%------------------------------------------------------------
+\begin{document}
+%------------------------------------------------------------
+%%   remove this line if the background is an image
+\pagecolor{cola}
+%------------------------------------------------------------
+%%%   ... and uncomment this line for image.jpg as a background
+% \ThisCenterWallPaper{1.0}{image.jpg}
+%%     .... cover the page by adjusting the value 1.0
+%------------------------------------------------------------
+%%     first the headers - title, logo, etc across the top
+%%%       ... use \BoX and/or \cBoX here
+\cBoX{.4}{\color{blue}\centering\Huge\textsc{Farmer and
+Trespasser}}{colb}{red}
+\hfill
+\BoX{.16}{\centering\textit{\lq\lq Get orf moi laaaand!\rq\rq}}
+\hfill
+\BoX{.2}{\centering\includegraphics[width=0.6\textwidth]{logo.jpg}}
+%------------------------------------------------------------
+\vspace{0.5in}  %%%%   adjust the space between headers and body
+%------------------------------------------------------------
+%%%  now the body material in 3 columns of stacked boxes
+%%      ... use \BOX and/or \cBOX here
+\begin{multicols*}{3}
+%%%--------------------------------------------
+%%%   to get more in, try say 4 columns with smaller-sized type
+%%%  BUT -- for easy reading 
+%%%               use no more than about 66 characters per line
+%%%%   .... and choose a size of type that 
+%%%%              looks OK expanded from A4 to A2
+% \tiny
+\small
+%%%---------------------------------------------------------
+\BOX{.9}{\subsection*{problem}Farmer Palmer, lying stealthily on
+the (flat) ground, shoots at
+a trespasser who has climbed to the top of a tree of height $h$ at
+distance $L$ away.\par If bullets leave his gun with speed $v$ then find
+an equation determining the required angle of projection $\alpha$.\par
+Show that $\tan\alpha=v^2/gL$ for maximum range, and that then the
+bullets' initial velocity bisects the angle between the vertical and the
+straight line joining gun and trespasser.}
+\BOX{0.9}{\subsection*{diagram}
+\includegraphics[width=\textwidth]{diagram.jpg}}
+%%%%  new column -------------------------------------
+\columnbreak
+\BOX{0.9}{\subsection*{derivation}
+integrating N2 gives
+\[ x(t)=vt\cos\alpha\qquad y(t)=vt\sin\alpha-gt^2/2 \]
+when putting \[ x(T)=L\qquad\mbox{and}\quad y(T)=h \] and eliminating
+time of flight $T$ --- with the use of 
+\[ \tan=\sin/\cos\qquad\mbox{and}\quad\sin^2+\cos^2=1 \] --- leads to
+the \textbf{key equation}.}
+\cBOX{0.9}{\subsection*{key equation}
+\[  h=-\frac{gL^2}{2v^2}(1+\tan^2\alpha)+L\tan\alpha  \]
+\medskip\hfill--- which is quadratic for $\tan\alpha$.}{colb}{colc}
+\BOX{0.9}{\subsection*{maximum range}
+in range there are two real solutions for $\tan\alpha$ and out of range
+the solutions are complex --- so at \textbf{maximum range} they coincide
+--- when
+\[ \tan\alpha=-\frac{L}{2(-gL^2/2v^2)}=\frac{v^2}{gL} \]
+--- remembering that when $ax^2+bx+c=0$ has coincident roots
+they are given by $x=-b/2a$.}
+%%%%  new column -------------------------------------
+\columnbreak
+\BOX{0.9}{\subsection*{angles}
+let $\beta$ be the angle between the ground and the straight line
+joining gun and trespasser --- then $\tan\beta=h/L$, which the
+\textbf{key equation} gives as
+\[ \tan\beta=\frac hL=-\frac{gL}{2v^2}(1+\tan^2\alpha)+\tan\alpha \]
+and where at \textbf{maximum range} we have \[ gL/v^2=1/\tan\alpha \]
+--- hence
+\[ \tan\beta=\frac{\tan^2\alpha-1}{2\tan\alpha}=-\cot2\alpha \]
+and so $\beta=2\alpha-\pi/2$ or
+\[ \pi/2-\alpha=\alpha-\beta \]
+as required}
+\BOX{0.9}{\subsection*{\dots\ and finally}
+why does angle $\alpha$ at \textbf{maximum range} depend on horizontal
+distance $L$ and not on vertical height $h$?}
+\BOX{0.9}{\subsection*{references}
+http://en.wikipedia.org/wiki/Farmer\textunderscore Palmer}
+\setlength\fboxrule{1pt}  %%%% a thinner frame here
+\cBOX{0.9}{\centering%
+RC Johnson\quad\textsl{Maths Dept}\quad\today}{colb}{colc}
+%----------------------
+\end{multicols*}
+%%  ---------------------------------------------------
+\end{document}
+%%%%%%%%%%%%%%%%------------------------------

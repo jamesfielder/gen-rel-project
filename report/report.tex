@@ -1,0 +1,199 @@
+\documentclass[a4paper,11pt,notitlepage,twoside]{report}
+
+% this all **really** needs to be cleaned up at some point
+
+% variables! for nice stuff.
+\newcommand{\documentTitle}{Tests of General Relativity}
+\newcommand{\documentAuthor}{James Fielder}
+\newcommand{\documentDate}{\today}
+
+% unicode
+% \usepackage[utf8]{inputenc}
+
+% colour package is useful
+\usepackage{color}
+\usepackage[usenames,dvipsnames]{xcolor}
+
+% AMS Maths packages
+% \usepackage{amsmath} replaced with the beautiful package, will need an if else statement for pdflatex fix eventually... or not as the case might be
+\usepackage{amsthm}
+\usepackage{mathtools} % this drags in amsmath as well
+
+% fixes, please
+\usepackage{fix-cm}
+\usepackage{calc}
+
+% theorem stuff
+\newtheorem{defn}{Definition}[section]
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{prop}{Proposition}[section]
+\newtheorem{exmp}{Example}[section]
+\newtheorem{remark}{Remark}[section]
+
+% formatting page, add the [headings] option to full page to have it not get in the way of fancyhdr and your life be blessed with happiness.
+\usepackage[a4paper,asymmetric]{geometry}
+\usepackage[headings]{fullpage}
+
+% chapter headers taken from http://texblog.org/2012/07/03/fancy-latex-chapter-styles/ with fixes for the spacing before and after the title
+% setting the spacing seems non trivial and I can't work out which arguements are needed. Errors regarding a number not being set are probably
+% to do with not setting something for one of the arguements of \titlespacing*
+\usepackage{titlesec}
+\definecolor{gray75}{gray}{0.75}
+\newcommand{\hsp}{\hspace{20pt}}
+\titleformat{\chapter}[hang]{\Huge\bfseries}{\thechapter\hsp\textcolor{gray75}{|}\hsp}{0pt}{\Huge\bfseries}
+\titlespacing*{\chapter}{0pt}{0pt}{80pt}{}
+
+% fancy header
+\usepackage{fancyhdr}
+% Normal enviroment is for non chapter heading pages. Need a geometry fix for the text running into the header. Turns out the fix is just to add the [headings]
+% option to fullpage! The gods of TeX smile upon me.
+\fancypagestyle{normal}{%
+  \fancyhf{}
+  \fancyhead[LE]{\rule[-2ex]{0pt}{2ex}\small \nouppercase{\leftmark}}
+  \fancyhead[RO]{\rule[-2ex]{0pt}{2ex}\small \nouppercase{\rightmark}}
+  \fancyfoot[L]{}
+  \fancyfoot[C]{\thepage}
+  \fancyfoot[R]{}
+  \renewcommand{\headrulewidth}{0.4pt}
+  \renewcommand{\footrulewidth}{0.4pt}}
+% Page style used on chapter starts by default but with the bottom edited to draw a line before the page number.
+\fancypagestyle{plain}{%
+  \fancyhf{}
+  \fancyfoot[L]{}
+  \fancyfoot[C]{\thepage}
+  \fancyfoot[R]{}
+  \renewcommand{\headrulewidth}{0pt}
+  \renewcommand{\footrulewidth}{0.4pt}}
+\pagestyle{normal}
+
+% a nice font
+% supply the old option to this package to get ligatures. Not sure if I will use them or not, not sure if they are simply **too** beautiful. ;)
+%\usepackage{beautiful}
+\usepackage[urw-garamond]{mathdesign} % Old friends are always good, comfy slippers, a warm fire, all those things.
+% I'd get a civil partnership with urw-garamond
+
+% fix broken bibtex
+% urls are amazing
+\usepackage{hyperref}
+
+% images
+\usepackage{graphicx}
+\graphicspath{{./img/}}
+\usepackage{float}
+\usepackage{wrapfig}
+
+% pstricks for diagrams
+\usepackage{pst-plot}
+\usepackage{pstricks}
+\usepackage{pst-node}
+\usepackage{pst-tree}
+\usepackage{pstricks-add}
+
+% nice code, and make it pretty
+\usepackage{listings}
+\lstset{
+    numbers=left,
+    keywordstyle=\color{blue}\bfseries,
+    frame=single
+}
+
+% margin note
+\newcommand{\marginnote}[1]{\marginpar{\footnotesize\textcolor{red}{#1}}}
+\newcommand{\note}[1]{\begin{center}\textcolor{red}{#1}\end{center}}
+
+% microtype (experimenting with this...)
+%
+\usepackage{microtype}
+
+% bibliography
+\usepackage[backend=biber]{biblatex}
+\bibliography{biblio.bib}
+
+% blind text for testing stuff
+\usepackage{blindtext}
+
+% implies fix
+\let\Longrightarrow\Rightarrow
+% title page fix
+\let\endtitlepage\relax
+% change phi
+\let\phi\varphi
+
+% for writing differential forms
+\newcommand{\df}[1]{\text{d}x^{#1}}
+\renewcommand{\d}[1]{\text{d} #1}
+% for writing tensors
+\usepackage{tensor}
+% table of contents depth
+\setcounter{tocdepth}{1}
+
+\author{James Fielder}
+\date{}
+\title{Tests of General Relativity}
+
+\begin{document}
+
+\begin{titlepage}
+\thispagestyle{empty}
+\begin{center}
+{\Huge Tests of General Relativity} \\[10cm]
+{\Large James Fielder}
+\end{center}
+\end{titlepage}
+
+\pagebreak
+
+
+
+\thispagestyle{empty} 
+
+
+\begin{abstract}
+\noindent In this report we will examine the experimental evidence for Einstein's theory of General Relativity (GR).
+First, the basic ideas of GR will be developed, starting with the equivalence principle and leading to the Einstein equation.
+Then the theory of gravitational waves will be introduced. Experimental verifications for GR will be reviewed and the use of GR in the
+Global Positioning System presented. \\[6cm]
+\end{abstract} 
+
+\begin{center}
+This piece of work is a result of my own work except where it forms an assessment based on group project work. 
+In the case of a group project, the work has been prepared in collaboration with other members of the group. 
+Material from the work of others not involved in the project has been acknowledged and quotations and paraphrases suitably indicated. \\[6cm]
+\end{center}
+
+\begin{center}
+\textbf{Acknowledgements}
+
+I would like to thank my supervisor Prof Richard Ward for his guidance while completing this challenging project, and seemingly endless patience. My friends for being patient with me while I extolled the virtues of gravitational theory. And my mother, Linda Fielder, for agreeing to proof read this document along with my friends Martin Dehnel and Adam Harries.
+\end{center}
+\thispagestyle{empty}
+
+
+\tableofcontents
+\thispagestyle{empty}
+\clearpage
+\listoffigures
+\thispagestyle{empty}
+
+\chapter{Introduction}
+
+\input{intro.tex}
+
+\chapter{Basics of General Relativity}
+\input{basics.tex}
+\chapter{Gravitational Waves}
+\input{waves.tex}
+\chapter{Classical Tests of General Relativity}
+\input{tests.tex}
+\chapter{Gravitational Wave Tests}
+\input{waves2.tex}
+\chapter{Relativity and the Global Positioning System}
+\input{gps.tex}
+\chapter{Conclusions}
+\input{conclude.tex}
+
+\nocite{*}
+{\thispagestyle{plain}
+\printbibliography
+}
+\end{document}

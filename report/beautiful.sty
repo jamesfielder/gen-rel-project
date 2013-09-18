@@ -1,0 +1,348 @@
+% Copyright (c) 2010, Gaetan Bisson. All rights reserved.
+%
+% Redistribution and use in source and binary forms, with or without
+% modification, are permitted provided that the following conditions are met:
+% 1. Redistributions of source code must retain the above copyright notice,
+%    this list of conditions and the following disclaimer.
+% 2. Redistributions in binary form must reproduce the above copyright notice,
+%    this list of conditions and the following disclaimer in the documentation
+%    and/or other materials provided with the distribution.
+%
+% THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS "AS IS" AND ANY EXPRESS
+% OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+% OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN
+% NO EVENT SHALL THE COPYRIGHT HOLDERS BE LIABLE FOR ANY DIRECT, INDIRECT,
+% INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+% LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA,
+% OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+% LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+% NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
+% EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{beautiful}
+
+\usepackage{ifxetex,ifluatex}
+\ifxetex\else\ifluatex\else
+\PackageError{beautiful}{Use XeTeX or LuaTeX}
+\fi\fi
+
+\RequirePackage{amsmath,amsthm}
+\RequirePackage[garamond]{mathdesign}
+\RequirePackage[quiet]{fontspec}
+\RequirePackage{microtype}
+
+\defaultfontfeatures{Mapping=tex-text}
+\DeclareOption{old}{\defaultfontfeatures{Mapping=tex-text,Numbers=OldStyle,Ligatures=Rare}}
+\DeclareOption{hst}{\defaultfontfeatures{Mapping=tex-text,Numbers=OldStyle,Ligatures=Rare,Style=Historic}}
+\ProcessOptions
+
+\def\salt{\addfontfeature{Style=Alternate}}
+\def\swsh{\addfontfeature{ItalicFeatures={Style=Swash}}\itshape}
+
+\setmainfont{Garamond Premier Pro}
+\setmathrm[Numbers=Lining]{Garamond Premier Pro}
+
+\RequirePackage{hyperref}
+\RequirePackage{graphicx}
+\RequirePackage{indentfirst}
+
+\catcode`\«=\active
+\catcode`\»=\active
+\def«{\og\ignorespaces}
+\def»{\unskip\fg}
+
+\newcounter{enumitcount}
+\AtBeginDocument{\renewenvironment{itemize}{\begin{list}{--}{\itemsep=0pt\topsep=\parsep}}{\end{list}}}
+\AtBeginDocument{\renewenvironment{enumerate}{\begin{list}{\arabic{enumitcount}.}{\usecounter{enumitcount}\itemsep=0pt\topsep=\parsep}}{\end{list}}}
+
+\AtBeginDocument{\let\thetitle\@title\let\theauthor\@author}
+\AtEndDocument{\immediate\write\@auxout{\string\newlabel{lastpage}{{}{\thepage}{}{page.\Hy@temp}{}}}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% http://permalink.gmane.org/gmane.comp.tex.luatex.user/2116
+% /usr/share/texmf-dist/tex/xelatex/mathspec/mathspec.sty
+
+\ifluatex
+  \def\DeclareUnicodeMathSymbol#1#2#3#4{
+    \global\luatexUmathchardef#1=
+      "\mathchar@type#2
+      "\the\csname sym#3\endcsname
+      #4
+  }
+\else
+  \def\DeclareUnicodeMathSymbol#1#2#3#4{%
+    \expandafter\in@\csname sym#3\expandafter\endcsname
+      \expandafter{\group@list}%
+    \ifin@
+      \begingroup
+        \if\relax\noexpand#1% is command?
+          \edef\reserved@a{\noexpand\in@{\string\mathchar}{\meaning#1}}%
+          \reserved@a
+          \ifin@
+            \expandafter\XeTeXset@mathsymbol
+              \csname sym#3\endcsname#1#2{#4}%
+            \@font@info{Redeclaring math symbol \string#1}%
+          \else
+            \expandafter\ifx
+            \csname\expandafter\@gobble\string#1\endcsname
+            \relax
+            \expandafter\XeTeXset@mathsymbol
+              \csname sym#3\endcsname#1#2{#4}%
+            \else
+              \@latex@error{Command `\string#1' already defined}\@eha
+            \fi
+          \fi
+        \else
+          \expandafter\XeTeXset@mathchar
+            \csname sym#3\endcsname#1#2{#4}%
+        \fi
+      \endgroup
+    \else
+      \@latex@error{Symbol font `#3' is not defined}\@eha
+      \expandafter\@gobbleoarg
+    \fi}
+  \@onlypreamble\DeclareUnicodeMathSymbol
+  \def\XeTeXset@mathchar#1#2#3#4{%
+    \global\XeTeXmathcode`#2="\mathchar@type#3#1#4\relax}
+  \@onlypreamble\XeTeXset@mathchar
+  \def\XeTeXset@mathsymbol#1#2#3#4{%
+    \global\XeTeXmathchardef#2"\mathchar@type#3#1#4\relax}
+  \@onlypreamble\XeTeXset@mathsymbol
+\fi
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\ExplSyntaxOn
+\SetSymbolFont{operators}{normal}\encodingdefault\g_fontspec_mathrm_tl\mddefault\updefault
+\SetSymbolFont{operators}{bold}\encodingdefault\g_fontspec_mathrm_tl\bfdefault\updefault
+
+\DeclareSymbolFont{nfont}\encodingdefault\g_fontspec_mathrm_tl\mddefault\updefault
+\DeclareSymbolFont{ifont}\encodingdefault\g_fontspec_mathrm_tl\mddefault\itdefault
+
+\let\%\relax
+%\let\prime\relax
+\let\sim\relax
+
+\DeclareMathSymbol{!}\mathord{nfont}{"21}
+\DeclareMathSymbol{#}\mathord{nfont}{"23}
+\DeclareMathSymbol{$}\mathord{nfont}{"24}
+\DeclareMathSymbol{\%}\mathord{nfont}{"25}
+\DeclareMathSymbol{&}\mathord{nfont}{"26}
+%\DeclareMathSymbol{\prime}\mathord{nfont}{"27}
+\DeclareMathSymbol{(}\mathopen{nfont}{"28}
+\DeclareMathSymbol{)}\mathclose{nfont}{"29}
+\DeclareMathSymbol{*}\mathpunct{nfont}{"2A}
+\DeclareMathSymbol{+}\mathbin{nfont}{"2B}
+\DeclareMathSymbol{,}\mathpunct{nfont}{"2C}
+%\DeclareMathSymbol{-}\mathbin{nfont}{"2D}
+\DeclareMathSymbol{.}\mathord{nfont}{"2E}
+%\DeclareMathSymbol{/}\mathbin{nfont}{"2F}
+
+% No need to mess with digits here as mathdesign lets them be as in text mode;
+% this would anyhow disturb the url package since it hijacks the math mode to
+% print URLs, and expects math-mode digits to abide by text font selections...
+
+%\DeclareMathSymbol{0}\mathord{nfont}{"30}
+%\DeclareMathSymbol{1}\mathord{nfont}{"31}
+%\DeclareMathSymbol{2}\mathord{nfont}{"32}
+%\DeclareMathSymbol{3}\mathord{nfont}{"33}
+%\DeclareMathSymbol{4}\mathord{nfont}{"34}
+%\DeclareMathSymbol{5}\mathord{nfont}{"35}
+%\DeclareMathSymbol{6}\mathord{nfont}{"36}
+%\DeclareMathSymbol{7}\mathord{nfont}{"37}
+%\DeclareMathSymbol{8}\mathord{nfont}{"38}
+%\DeclareMathSymbol{9}\mathord{nfont}{"39}
+
+\DeclareMathSymbol{:}\mathrel{nfont}{"3A}
+\DeclareMathSymbol{;}\mathpunct{nfont}{"3B}
+\DeclareMathSymbol{<}\mathrel{nfont}{"3C}
+\DeclareMathSymbol{=}\mathrel{nfont}{"3D}
+\DeclareMathSymbol{>}\mathrel{nfont}{"3E}
+\DeclareMathSymbol{?}\mathpunct{nfont}{"3F}
+\DeclareMathSymbol{@}\mathpunct{nfont}{"40}
+
+\DeclareMathSymbol{A}\mathalpha{nfont}{"41}
+\DeclareMathSymbol{B}\mathalpha{nfont}{"42}
+\DeclareMathSymbol{C}\mathalpha{nfont}{"43}
+\DeclareMathSymbol{D}\mathalpha{nfont}{"44}
+\DeclareMathSymbol{E}\mathalpha{nfont}{"45}
+\DeclareMathSymbol{F}\mathalpha{nfont}{"46}
+\DeclareMathSymbol{G}\mathalpha{nfont}{"47}
+\DeclareMathSymbol{H}\mathalpha{nfont}{"48}
+\DeclareMathSymbol{I}\mathalpha{nfont}{"49}
+\DeclareMathSymbol{J}\mathalpha{nfont}{"4A}
+\DeclareMathSymbol{K}\mathalpha{nfont}{"4B}
+\DeclareMathSymbol{L}\mathalpha{nfont}{"4C}
+\DeclareMathSymbol{M}\mathalpha{nfont}{"4D}
+\DeclareMathSymbol{N}\mathalpha{nfont}{"4E}
+\DeclareMathSymbol{O}\mathalpha{nfont}{"4F}
+\DeclareMathSymbol{P}\mathalpha{nfont}{"50}
+\DeclareMathSymbol{Q}\mathalpha{nfont}{"51}
+\DeclareMathSymbol{R}\mathalpha{nfont}{"52}
+\DeclareMathSymbol{S}\mathalpha{nfont}{"53}
+\DeclareMathSymbol{T}\mathalpha{nfont}{"54}
+\DeclareMathSymbol{U}\mathalpha{nfont}{"55}
+\DeclareMathSymbol{V}\mathalpha{nfont}{"56}
+\DeclareMathSymbol{W}\mathalpha{nfont}{"57}
+\DeclareMathSymbol{X}\mathalpha{nfont}{"58}
+\DeclareMathSymbol{Y}\mathalpha{nfont}{"59}
+\DeclareMathSymbol{Z}\mathalpha{nfont}{"5A}
+\DeclareMathSymbol{[}\mathopen{nfont}{"5B}
+
+%\DeclareMathSymbol{\backslash}\mathbin{nfont}{"5C}
+\DeclareMathSymbol{]}\mathclose{nfont}{"5D}
+\DeclareMathSymbol{`}\mathalpha{nfont}{"60}
+
+\DeclareMathSymbol{a}\mathalpha{ifont}{"61}
+\DeclareMathSymbol{b}\mathalpha{ifont}{"62}
+\DeclareMathSymbol{c}\mathalpha{ifont}{"63}
+\DeclareMathSymbol{d}\mathalpha{ifont}{"64}
+\DeclareMathSymbol{e}\mathalpha{ifont}{"65}
+\DeclareMathSymbol{f}\mathalpha{ifont}{"66}
+\DeclareMathSymbol{g}\mathalpha{ifont}{"67}
+\DeclareMathSymbol{h}\mathalpha{ifont}{"68}
+\DeclareMathSymbol{i}\mathalpha{ifont}{"69}
+\DeclareMathSymbol{j}\mathalpha{ifont}{"6A}
+\DeclareMathSymbol{k}\mathalpha{ifont}{"6B}
+\DeclareMathSymbol{l}\mathalpha{ifont}{"6C}
+\DeclareMathSymbol{m}\mathalpha{ifont}{"6D}
+\DeclareMathSymbol{n}\mathalpha{ifont}{"6E}
+\DeclareMathSymbol{o}\mathalpha{ifont}{"6F}
+\DeclareMathSymbol{p}\mathalpha{ifont}{"70}
+\DeclareMathSymbol{q}\mathalpha{ifont}{"71}
+\DeclareMathSymbol{r}\mathalpha{ifont}{"72}
+\DeclareMathSymbol{s}\mathalpha{ifont}{"73}
+\DeclareMathSymbol{t}\mathalpha{ifont}{"74}
+\DeclareMathSymbol{u}\mathalpha{ifont}{"75}
+\DeclareMathSymbol{v}\mathalpha{ifont}{"76}
+\DeclareMathSymbol{w}\mathalpha{ifont}{"77}
+\DeclareMathSymbol{x}\mathalpha{ifont}{"78}
+\DeclareMathSymbol{y}\mathalpha{ifont}{"79}
+\DeclareMathSymbol{z}\mathalpha{ifont}{"7A}
+
+%\DeclareMathSymbol{\{}\mathopen{nfont}{"7B}
+%\DeclareMathSymbol{|}\mathrel{nfont}{"7C}
+%\DeclareMathSymbol{\}}\mathclose{nfont}{"7D}
+\DeclareMathSymbol{\sim}\mathrel{nfont}{"7E}
+
+\let\neg\relax
+\let\pm\relax
+\let\cdot\relax
+\let\times\relax
+\let\emptyset\relax
+\let\div\relax
+
+\DeclareMathSymbol{\neg}\mathop{nfont}{"AC}
+\DeclareMathSymbol{°}\mathpunct{nfont}{"B0}
+\DeclareMathSymbol{\pm}\mathbin{nfont}{"B1}
+\DeclareMathSymbol{\cdot}\mathbin{nfont}{"B7}
+\DeclareMathSymbol{\times}\mathbin{nfont}{"D7}
+\DeclareMathSymbol{\emptyset}\mathord{nfont}{"D8}
+\DeclareMathSymbol{\div}\mathbin{nfont}{"F7}
+
+\DeclareUnicodeMathSymbol{\Alpha}\mathalpha{nfont}{"0391}
+\DeclareUnicodeMathSymbol{\Beta}\mathalpha{nfont}{"0392}
+\DeclareUnicodeMathSymbol{\Gamma}\mathalpha{nfont}{"0393}
+\DeclareUnicodeMathSymbol{\Delta}\mathalpha{nfont}{"0394}
+\DeclareUnicodeMathSymbol{\Epsilon}\mathalpha{nfont}{"0395}
+\DeclareUnicodeMathSymbol{\Zeta}\mathalpha{nfont}{"0396}
+\DeclareUnicodeMathSymbol{\Eta}\mathalpha{nfont}{"0397}
+\DeclareUnicodeMathSymbol{\Theta}\mathalpha{nfont}{"0398}
+\DeclareUnicodeMathSymbol{\Iota}\mathalpha{nfont}{"0399}
+\DeclareUnicodeMathSymbol{\Kappa}\mathalpha{nfont}{"039A}
+\DeclareUnicodeMathSymbol{\Lambda}\mathalpha{nfont}{"039B}
+\DeclareUnicodeMathSymbol{\Mu}\mathalpha{nfont}{"039C}
+\DeclareUnicodeMathSymbol{\Nu}\mathalpha{nfont}{"039D}
+\DeclareUnicodeMathSymbol{\Xi}\mathalpha{nfont}{"039E}
+\DeclareUnicodeMathSymbol{\Omicron}\mathalpha{nfont}{"039F}
+\DeclareUnicodeMathSymbol{\Pi}\mathalpha{nfont}{"03A0}
+\DeclareUnicodeMathSymbol{\Rho}\mathalpha{nfont}{"03A1}
+\DeclareUnicodeMathSymbol{\Sigma}\mathalpha{nfont}{"03A3}
+\DeclareUnicodeMathSymbol{\Tau}\mathalpha{nfont}{"03A4}
+\DeclareUnicodeMathSymbol{\Upsilon}\mathalpha{nfont}{"03A5}
+\DeclareUnicodeMathSymbol{\Phi}\mathalpha{nfont}{"03A6}
+\DeclareUnicodeMathSymbol{\Chi}\mathalpha{nfont}{"03A7}
+\DeclareUnicodeMathSymbol{\Psi}\mathalpha{nfont}{"03A8}
+\DeclareUnicodeMathSymbol{\Omega}\mathalpha{nfont}{"03A9}
+
+\DeclareUnicodeMathSymbol{\alpha}\mathalpha{nfont}{"03B1}
+\DeclareUnicodeMathSymbol{\beta}\mathalpha{nfont}{"03B2}
+\DeclareUnicodeMathSymbol{\gamma}\mathalpha{nfont}{"03B3}
+\DeclareUnicodeMathSymbol{\delta}\mathalpha{nfont}{"03B4}
+\DeclareUnicodeMathSymbol{\epsilon}\mathalpha{nfont}{"03B5}
+\DeclareUnicodeMathSymbol{\zeta}\mathalpha{nfont}{"03B6}
+\DeclareUnicodeMathSymbol{\eta}\mathalpha{nfont}{"03B7}
+\DeclareUnicodeMathSymbol{\theta}\mathalpha{nfont}{"03B8}
+\DeclareUnicodeMathSymbol{\iota}\mathalpha{nfont}{"03B9}
+\DeclareUnicodeMathSymbol{\kappa}\mathalpha{nfont}{"03BA}
+\DeclareUnicodeMathSymbol{\lambda}\mathalpha{nfont}{"03BB}
+\DeclareUnicodeMathSymbol{\mu}\mathalpha{nfont}{"03BC}
+\DeclareUnicodeMathSymbol{\nu}\mathalpha{nfont}{"03BD}
+\DeclareUnicodeMathSymbol{\xi}\mathalpha{nfont}{"03BE}
+\DeclareUnicodeMathSymbol{\omicron}\mathalpha{nfont}{"03BF}
+\DeclareUnicodeMathSymbol{\pi}\mathalpha{nfont}{"03C0}
+\DeclareUnicodeMathSymbol{\rho}\mathalpha{nfont}{"03C1}
+\DeclareUnicodeMathSymbol{\varsigma}\mathalpha{nfont}{"03C2}
+\DeclareUnicodeMathSymbol{\sigma}\mathalpha{nfont}{"03C3}
+\DeclareUnicodeMathSymbol{\tau}\mathalpha{nfont}{"03C4}
+\DeclareUnicodeMathSymbol{\upsilon}\mathalpha{nfont}{"03C5}
+\DeclareUnicodeMathSymbol{\phi}\mathalpha{nfont}{"03C6}
+\DeclareUnicodeMathSymbol{\chi}\mathalpha{nfont}{"03C7}
+\DeclareUnicodeMathSymbol{\psi}\mathalpha{nfont}{"03C8}
+\DeclareUnicodeMathSymbol{\omega}\mathalpha{nfont}{"03C9}
+
+\let\textellipsis\relax
+\let\mathellipsis\relax
+\let\ell\relax
+%\let\partial\relax
+%\let\prod\relax
+%\let\sum\relax
+%\let\sqrt\relax
+\let\infty\relax
+%\let\int\relax
+\let\approx\relax
+\let\neq\relax
+\let\leq\relax
+\let\geq\relax
+
+\DeclareUnicodeMathSymbol{\textellipsis}\mathpunct{nfont}{"2026}
+\DeclareUnicodeMathSymbol{\mathellipsis}\mathpunct{nfont}{"2026}
+\DeclareUnicodeMathSymbol{\ell}\mathalpha{nfont}{"2113}
+%\DeclareUnicodeMathSymbol{\partial}\mathop{nfont}{"2202}
+%\DeclareUnicodeMathSymbol{\prod}\mathop{nfont}{"220F}
+%\DeclareUnicodeMathSymbol{\sum}\mathop{nfont}{"2211}
+\DeclareUnicodeMathSymbol{\minus}\mathbin{nfont}{"2212}
+%\DeclareUnicodeMathSymbol{\sqrt}\mathop{nfont}{"221A}
+\DeclareUnicodeMathSymbol{\infty}\mathord{nfont}{"221E}
+%\DeclareUnicodeMathSymbol{\int}\mathbin{nfont}{"222B}
+\DeclareUnicodeMathSymbol{\approx}\mathrel{nfont}{"2248}
+\DeclareUnicodeMathSymbol{\neq}\mathrel{nfont}{"2260}
+\DeclareUnicodeMathSymbol{\leq}\mathrel{nfont}{"2264}
+\DeclareUnicodeMathSymbol{\geq}\mathrel{nfont}{"2265}
+\let\ne\neq
+\let\le\leq
+\let\ge\geq
+
+% Fix use of minus sign in long arrows.
+\DeclareUnicodeMathSymbol{\relminus}\mathord{mathdesignA}{"B9}
+\DeclareUnicodeMathSymbol{\relequal}\mathord{operators}{"3D}
+\def\relbar{\mathrel{\smash{\relminus}}}
+\def\Relbar{\mathrel{\relequal}}
+\def\leftarrowfill
+   {$\m@th\mathord\leftarrow\mkern-6mu%
+     \cleaders\hbox{$\mkern-2mu\cm@minus\mkern-2mu$}\hfill
+     \mkern-6mu\cm@minus$}
+\def\rightarrowfill
+   {$\m@th\cm@minus\mkern-6mu%
+     \cleaders\hbox{$\mkern-2mu\cm@minus\mkern-2mu$}\hfill
+     \mkern-6mu\mathord\rightarrow$}
+
+% Adjust the size of a few symbols.
+\def\in{\smallin}
+\def\owns{\smallowns}
+\def\notin{\notsmallin}
+\def\notowns{\notsmallowns}
+\def\setminus{\smallsetminus}
+
+\endinput

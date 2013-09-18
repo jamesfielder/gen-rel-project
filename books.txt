@@ -1,0 +1,3 @@
+Eventually this will be a bibtex file... oh well
+
+This looks useful: http://arxiv.org/pdf/1008.0296v1.pdf

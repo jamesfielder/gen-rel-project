@@ -1,0 +1,167 @@
+%!TEX root = report.tex
+
+In Newton's gravitational theory the gravitational field is instantly established by the presence of mass. In Einstein's theory however, this is no longer the case; gravitation can only move at at most the speed of light, like every other physical phenomena or force. This then begs the question of how do changes in the gravitational force propagate to effect objects in spacetime. The answer is that changes in a gravitational field are transmitted through gravitational waves.
+
+In the previous chapter we used the weak field approximation to derive the constant in the Einstein equation. If we relax the condition that the fields must be time independent this formalism has another use as the method of visualizing gravitational wave emission. In this chapter we will show how such emission works, following closely the discussion in Cheng's book \cite{cheng}.
+
+\section{Linearized Gravitation}
+
+The idea of a gravitational wave is strongly influenced by electromagnetic waves within classical electrodynamics.
+
+Recall from chapter two the equation for the metric in flat space with a perturbation \eqref{weak-field}
+\begin{equation}
+	g_{\mu \nu} = \eta_{\mu \nu} + h_{\mu \nu} .
+\end{equation}
+We can view this equation as being a tensor field propagating on flat Minkowski space \cite{cheng} at the speed of light. Similar to before we can define the Riemann curvature tensor to be (dropping higher order terms of \(h_{\mu \nu}\)) \cite{cheng}
+\begin{equation} \label{wave-riemann}
+	R\indices{_\alpha_\mu_\beta_\nu} = \frac{1}{2} (\partial_{\alpha} \partial_{\nu} h_{\mu \beta} + \partial_{\mu} \partial_{\beta} h_{\alpha \nu} - \partial_{\alpha} \partial_{\beta} h_{\mu \nu} - \partial_{\mu} \partial_{\nu} h_{\alpha \beta})
+\end{equation}
+the Ricci tensor to be
+\begin{equation} \label{wave-ricci}
+	R_{\mu \nu} = \eta^{\alpha \beta} R\indices{_\alpha_\mu_\beta_\nu} = \frac{1}{2}(\partial_{\alpha} \partial_{\nu} h\indices{^\alpha_\mu} + \partial_{\mu} \partial_{\alpha} h\indices{^\alpha_\nu} - \Box h_{\mu \nu} - \partial_{\mu} \partial_{\nu} h)
+\end{equation}
+and the Ricci scalar to be
+\begin{equation} \label{wave-ricci-scalar}
+	R = \partial_{\mu} \partial_{\nu} h^{\mu \nu} - \Box h
+\end{equation}
+where we take \(\Box = \partial_{\mu} \partial^{\mu}\) to be the d'Alembert operator and \(h\) the trace of the metric perturbation. Finally we can write the Einstein tensor \cite{cheng, carroll}
+\begin{equation} \label{wave-einstein}
+	\begin{aligned}
+		G_{\mu \nu} &= R_{\mu \nu} - \frac{1}{2} \eta^{\mu \nu} R \\
+		&= \frac{1}{2} (\partial_{\sigma} \partial_{\nu} h\indices{^\sigma_\mu} + \partial_{\sigma} \partial_{\mu} h\indices{^\sigma_\nu} - \partial_{\mu} \partial_{\nu} h - \Box h_{\mu \nu} - \eta_{\mu \nu} \partial_{\rho} \partial_{\lambda} h^{\rho \lambda} + \eta_{\mu \nu} \Box h) .
+	\end{aligned}
+\end{equation}
+
+We note that the Einstein tensor is linear in \(h_{\mu \nu}\) as we would expect.
+
+\section{Gravitational Waves}
+
+Now, much as in classical electrodynamics we will choose the gauge transformation for the fields to be the Lorentz gauge. This gauge is guarantied to be invariant under changes of frames, due to the Lorentz invariance of the gauge condition \cite{griffiths}. 
+
+If we recall in electrodynamics using the potential formulation, a potential given by \(\vec{A}, V\) was unchanged under the following transformations with a scalar function \(\lambda\) \cite{griffiths}
+\begin{equation} \label{EM-gauge-transform}
+	\begin{aligned}
+		\vec{A}' &= \vec{A} + \nabla \lambda \\
+		V' &= V - \frac{\partial \lambda}{\partial t} ,
+	\end{aligned}
+\end{equation}
+that is \(\vec{A}', V'\) still represent the same physical situation. Such transformations are called gauge transformations. We can obtain a similar result for \(h_{\mu \nu}\) by realizing that the coordinate invariant nature of relativity we desire means that we should be able to make small changes to the coordinates. These changes should keep \(\eta_{\mu \nu}\) the same, but not \(h_{\mu \nu}\). Mathematically, if we consider that the coordinates are shifted by a small amount \(x\indices{^{u'}} = x^{\mu} + \chi^{\mu} (x)\) where \(\chi^{\mu} (x)\) are four arbitrary functions similar in magnitude to the metric perturbation \cite{hartle}, then we will obtain this condition. This is much like the situation with \(\lambda\) in \eqref{EM-gauge-transform}. Now by considering the transformation of the metric as per \eqref{tensor-transform} we can derive the gauge transformation for the \(h_{\mu \nu}\) field \cite{cheng}
+\begin{equation} \label{linear-gauge-transform}
+	h\indices{_{\mu'}_{\nu'}} = h_{\mu \nu} - \partial_{\mu} \chi_{\nu} - \partial_{\nu} \chi_{\mu} .
+\end{equation}
+
+By choosing the gauge to be the Lorentz gauge, in same way as in electrodynamics, we can simplify the resultant expressions for the Ricci tensor and scalar to obtain a wave equation for the perturbation of the metric. The Lorentz gauge is
+\begin{equation} \label{lorentz-gauge}
+	\partial^{\mu} \bar{h}_{\mu \nu} = 0
+\end{equation}
+with \(\bar{h} = h_{\mu \nu} - \frac{1}{2} h \eta_{\mu \nu}\) the trace reversed perturbation. This then simplifies the Ricci tensor to
+\begin{equation} \label{ricci-gauge}
+	R_{\mu \nu} = - \frac{1}{2} \Box h_{\mu \nu}
+\end{equation}
+and the Ricci scalar to
+\begin{equation} \label{ricci-scalar-gauge}
+	R = - \frac{1}{2} \Box h .
+\end{equation}
+
+Finally, in this way we can write the Einstein equation \eqref{einstein-right} as a wave equation in \(\bar{h}_{\mu \nu}\)
+\begin{equation} \label{wave-equation}
+	\Box \bar{h}_{\mu \nu} = 16 \pi G T_{\mu \nu} .
+\end{equation}
+The solution in terms of a retarded field is similar to electrodynamics \cite{cheng}
+\begin{equation} \label{wave-solution}
+	\bar{h}_{\mu \nu} (\vec{x}, t) = 4 G \int d^3 \vec{x}' \frac{T_{\mu \nu} (\vec{x}', t - |\vec{x}-\vec{x}'|/c)}{|\vec{x} - \vec{x}'|} .
+\end{equation}
+
+In order to simplify the discussion of the propagation of the waves we will take the energy momentum tensor to be zero for the rest of this chapter. This leaves us with the linearized Einstein equation in the vacuum case
+\begin{equation} \label{einstein-linear-vacuum}
+	\Box \bar{h}_{\mu \nu} = 0 .
+\end{equation}
+In this case we can see that, because \(\Box \eta_{\mu \nu} = 0\), 
+\begin{equation} \label{einstein-linear-vacuum2}
+	\Box h_{\mu \nu} = 0 .
+\end{equation}
+
+Since we have that the metric perturbation field satisfies the wave equation in the Lorentz gauge, we can view the perturbations as being waves spreading out from a source of strong gravity. Thus we can consider \(h_{\mu \nu}\) to be a plane wave solution \cite{cheng, hartle}
+\begin{equation} \label{wave-solution2}
+	h_{\mu \nu} (x) = \epsilon_{\mu \nu} e^{i k_{\alpha} x^{\alpha}}
+\end{equation}
+with \(\epsilon_{\mu \nu}\) being a 4 by 4 symmetric matrix with constant entries which describes the amplitude of the components of the wave and \(k^{\alpha} = ( \omega, \vec{k} )\) a 4-wavevector. Now by substituting into \eqref{einstein-linear-vacuum2} we find that \(k^2 \epsilon_{\mu \nu} e^{i k_{\alpha} x^{\alpha}} = 0\) which then implies \cite{carroll, hartle}
+\begin{equation} \label{wave-null}
+	k^2 = k_{\alpha} k^{\alpha} = - \omega^2 + \vec{k}^2 = 0
+\end{equation}
+meaning that, in order for plane waves to solve \eqref{einstein-linear-vacuum2} their wave vector must be a null vector, traveling at \(c\).
+
+Finally, due to the conditions given above we also must have that \cite{cheng}
+\begin{equation} \label{transverse}
+	k^{\mu} \epsilon_{\mu \nu} = 0
+\end{equation}
+which is the condition that the waves are transverse.
+
+\section{Transverse Traceless Gauge}
+
+Even after applying the gauge condition of \eqref{lorentz-gauge} we still have some freedom to choose coordinates. If we take that the gauge functions \(\chi_{\mu}\) are also constrained by \cite{cheng}
+\begin{equation} \label{guage2}
+	\Box \chi_{\mu} = 0
+\end{equation}
+then we can simplify the polarization tensor such that it is traceless \cite{cheng}
+\begin{equation} \label{traceless}
+	\epsilon\indices{^\mu_\mu} = 0
+\end{equation}
+and such that
+\begin{equation} \label{traceless2}
+	\epsilon_{0 \mu} = \epsilon_{\mu 0} = 0 .
+\end{equation}
+
+This condition on the gauge functions is called the transverse traceless gauge. In this gauge the gravitational wave will have 2 polarization states, which we will show now.
+
+Before we imposed the transverse traceless gauge condition \(\epsilon_{\mu \nu}\) had 10 independent components, however \eqref{transverse}, \eqref{traceless} and \eqref{traceless2} fix 8 of these components, leaving 2 possible choices of polarization states. If we consider a wave propagating along the z direction \(k^{\mu} = (\omega, 0,0,\omega)\) then using the conditions above we can see that in general the metric perturbation will have the form \cite{cheng, hartle}
+\begin{equation} \label{wave-tt-gauge}
+	h_{\mu \nu}(z,t) = 
+	\begin{pmatrix}
+	0 & 0 & 0 & 0 \\
+	0 & h_{+} & h_{\times} & 0 \\
+	0 & h_{\times} & - h_{+} & 0 \\
+	0 & 0 & 0 & 0
+	\end{pmatrix}
+	e^{i \omega (z - t)} .
+\end{equation}
+
+And thus the two polarization states will be
+
+\begin{equation} \label{epsilonplus}
+	\epsilon^{(+)}_{\mu \nu} = h_{+}
+	\begin{pmatrix}
+	0 & 0 & 0 & 0 \\
+	0 & 1 & 0 & 0 \\
+	0 & 0 & -1 & 0 \\
+	0 & 0 & 0 & 0 \\
+	\end{pmatrix}
+\end{equation}
+and
+\begin{equation} \label{epsilontimes}
+	\epsilon^{(\times)}_{\mu \nu} = h_{\times}
+	\begin{pmatrix}
+	0 & 0 & 0 & 0 \\
+	0 & 0 & 1 & 0 \\
+	0 & 1 & 0 & 0 \\
+	0 & 0 & 0 & 0 \\
+	\end{pmatrix}
+\end{equation}
+with \(h_{+}\) and \(h_{\times}\) being the ``plus'' and ``cross'' amplitudes, respectively.
+
+\section{Effect of Gravitational Waves on Particles}
+
+In order to observe the effects of gravitational waves we need to understand how they will affect a distribution of particles. Due to the equivalence principle, we must have that single particles cannot detect the effects of a gravitational wave on their own, as in an inertial frame we should be able to transform the effects of gravity away. Thus, we need to have at least two particles and need to consider their separation to see any gravitational wave effects.
+
+Consider two particles, one at the origin and another a small distance from it on the \(x\) axis \((0,\xi,0,0)\). If a ``plus'' polarized gravitational wave passes between them they will observe a distance change of \cite{cheng}
+\begin{equation} \label{particles-distance}
+	\begin{aligned}
+	ds &= \sqrt{g_{\mu \nu} \df{\mu} \df{\nu}} = \sqrt{g_{11}} \xi \\
+	&\approx \left[ \eta_{11} + \frac{1}{2} h_{11} \right] \xi = \left[ 1 + \frac{1}{2} h_{+} \sin \omega (t - z)\right] \xi .
+	\end{aligned}
+\end{equation} 
+If we consider the same setup but with the other particle on the \(y\) axis \((0, 0 , \xi, 0)\) then we will find
+\begin{equation}
+	ds = \left [ 1 - \frac{1}{2} h_{+} \sin \omega (t - z)\right] \xi
+\end{equation}
+and thus we see that there is an elongation along the \(x\) axis and a shortening along the \(y\) axis. The effects of a ``cross'' polarized wave are the same, except at 45\(^{\circ}\) to the ``plus'' polarized case.
